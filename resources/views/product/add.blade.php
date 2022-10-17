@@ -61,7 +61,7 @@
                <input class="form-control" type="productPrice" name="productPrice"  placeholder="Product Price"  required><br><br>
 
                <label for="file">Product Image</label>
-               <input type="file" name="file" id="file" accept="image/jpeg" required><br><br>
+               <input type="file" name="file[]" id="file" accept="image/jpeg" multiple required><br><br>
                         
                <hr class="mb-3">
                

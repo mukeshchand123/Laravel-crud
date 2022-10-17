@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ImageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,6 +54,10 @@ Route::middleware(['isLoggedIn'])->group(function () {
     Route::get('category/delete/{id}',[CategoryController::class,'destroy'])->where('id', '[0-9]+');
     
     Route::get('product/fetch',[ProductController::class,'fetch']);
+  
+    Route::get('product/image/fetch/{id}',[ImageController::class,'fetch']);
+    Route::get('product/image/delete/{id}',[ImageController::class,'delete']);
+  
     Route::get('product/add', [ProductController::class,'add']);
     Route::post('/add-product', [ProductController::class,'add_product']);
     Route::post('product/searchCategory', [ProductController::class,'searchCategory']);

@@ -83,7 +83,7 @@
     <th><h2>Product-Name</h2></th>
     <th><h2>Product-category</h2></th>
     <th><h2>Product-price</h2></th>
-    <th><h2>Product-Image</h2></th>
+    <th><h2>Image</h2></th>
     <th><h2>Action</h2></th>
 
     
@@ -97,8 +97,7 @@
             <td>{{$pro->name}}</td>
             <td>{{$cat->name}}</td>
             <td>{{$pro->price}}</td>
-            <td>{{$pro->image}}</td>
-            
+            <td><a href="product/image/fetch/{{$pro->id}}">Image</td>
              <td><a href="delete/{{$pro->id}}"  onclick=\"return confirm('Are you sure you want to delete?');\">Delete <a href="update/{{$pro->id}}">Update </td> 
         </tr>     
 @endif
@@ -109,7 +108,7 @@
             <td>{{$pro->name}}</td>
             <td>{{$cat->name}}</td>
             <td>{{$pro->price}}</td>
-            <td>{{$pro->image}}</td>
+            <td><a href="product/image/fetch/{{$pro->id}}">Image</td>
             
              <td><a href="delete/{{$pro->id}}"  onclick=\"return confirm('Are you sure you want to delete?');\">Delete <a href="update/{{$pro->id}}">Update </td> 
         </tr>     
@@ -121,7 +120,7 @@
             <td>{{$pro->name}}</td>
             <td>{{$cat->name}}</td>
             <td>{{$pro->price}}</td>
-            <td>{{$pro->image}}</td>
+            <td><a href="image/fetch/{{$pro->id}}">Image</td>
             
              <td><a href="delete/{{$pro->id}}"  onclick=\"return confirm('Are you sure you want to delete?');\">Delete <a href="update/{{$pro->id}}">Update </td> 
         </tr>

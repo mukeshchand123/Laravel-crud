@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProdCat;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Session;
 
@@ -51,44 +52,74 @@ class ProductController extends Controller
         
     }
     public function add_product(Request $request,Category $category){
-        $user  =Session::get('loginId');
-        $cat= $request->get('dropdown');
+        $request->validate([
+            'productName'=> 'required',
+            'dropdown'=> 'required',
+            'productPrice'=> 'required',
+            'file'=> 'required',
+            'file.*'=> 'mimes:jpg,jpeg,png'
+        ]);
         $product = new Product();
-        $product->userid = Session::get('loginId');
         $name = $request->get('productName');
         $product->name  = $name;
+       
+        //save image in storage folder
+       
+        
+       
+      
+        $user  =Session::get('loginId');
+        $cat= $request->get('dropdown');
+       
+        $product->userid = Session::get('loginId');
+        
         $product->price =  $request->get('productPrice');
-        $image =time().'_'.$name.'.'. $request->file('file')->getClientOriginalExtension();
-        $ext = $request->file('file')->getClientOriginalExtension();
-        if($ext == 'jpg'){
-            $request->file('file')->storeAs('public/uploads',$image);
-            $product->image = 'public/uploads/'.$image;
+       
+        if($request->hasfile('file'))
+        {
+
+           foreach($request->file('file') as $file)
+           {    
+               $image =time().'_'.$name.'.'.$file->getClientOriginalName();
+             //  $image=$file->getClientOriginalName();
+              // $request->file('file')->storeAs('public/uploads',$image);
+               $file->move('public/uploads', $image); 
+               //$file->move(public_path().'/files/', $name);  
+               $data[] = $image; 
+               
+           }
+        }
+
+      
+       // $file->filename=json_encode($data);
+       //
+          
             $res = $product->save();
             //for prodCat
             $product = Product::where('userid',$user)->where('name',$name)->get(['id']);
             foreach($product as $value){
                 $id = $value ;
             }
-            $count = 1;
+            //save imaage in image table for above product
+            foreach($data as $file){
+                $file = Image::create(
+                    [
+                        'prod'=>$id->id,
+                        'name'=>$file,
+                        'dir'=>'public/uploads/'.$file
+                    ]
+                    );
+            }
+            //add prod-cat relation for above product
               foreach( $cat as $value){
                 $pc = ProdCat::create(
                 [
                     'cat' => $value,
                     'prod' => $id->id
-                    ]
-
-                );
-                
-               
-                
+                ]
+                );      
                }
-            return redirect('product/fetch');
- 
-        }else{
-            echo"Invalid ext";
-            echo $ext;
-        }
-       
+            return redirect('product/fetch');     
       
     }
 
@@ -120,22 +151,31 @@ class ProductController extends Controller
 
     public function destroy(Product $product,$id)
     {
-        //
         
-        $product = Product::where('id','=',$id)->get();
+        $image = new Image();
+        $image = Image::where('prod','=',$id)->get();
         //delete image related to product
-        foreach($product as $value){
+        foreach($image as $value){
 
-            $image=$value->image;
-        }
-        $product=Product::find($id);
-        if(\Storage::exists($image)){
-            \Storage::delete($image);
+            $dir=$value->dir;
+            
+        if(\File::exists(public_path($dir))){
+            \File::delete(public_path($dir));
           }
-          //delete product from database
+
+        
+           
+        }
+        $product=Product::where('id','=',$id);
+       
+      
+        // delete product from database
        $product->delete();
        return redirect('product/fetch');
     }
+    
+
+    //update product
 
     public function edit(Product $product,Category $category,$id) // do product update
     {
@@ -170,37 +210,54 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Product $product,$id)
-    {   
+    {  
+        $request->validate([
+            'productName'=> 'required',
+            'dropdown'=> 'required',
+            'productPrice'=> 'required',
+            'file'=> 'required',
+            'file.*'=> 'mimes:jpg,jpeg,png'
+        ]); 
         $user  =Session::get('loginId');
-        $image = '';
+        $name = $request->get('productName');
+        $product->name =$name;
+        $product->price =  $request->get('productPrice');
         //getting all categories
         $category = Category::where('userid',$user)->get();
         foreach($category as $value){
             $all_cat[] = $value->id;
         }
         
-        //delete existing image
-        $product = Product::where('id','=',$id)->get(['image']);
-        foreach($product as $file){
-            $image = $file->image;
+       
+        //add image to public folder 
+        if($request->hasfile('file'))
+        {
+
+           foreach($request->file('file') as $file)
+           {    
+               $image =time().'_'.$name.'.'.$file->getClientOriginalName();
+             //  $image=$file->getClientOriginalName();
+              // $request->file('file')->storeAs('public/uploads',$image);
+               $file->move('public/uploads', $image); 
+               //$file->move(public_path().'/files/', $name);  
+               $data[] = $image; 
+               
+           }
         }
-        if(\Storage::exists($image)){
-            \Storage::delete($image);
-          }
-        
           //saving new data
         $cat= $request->get('dropdown');
-        $product = Product::find($id);
-        $name = $request->get('productName');
-        $product->name =$name;
-        $product->price =  $request->get('productPrice');
-        $image =time().'_'.$name.'.'. $request->file('file')->getClientOriginalExtension();
-        $ext = $request->file('file')->getClientOriginalExtension();
-       
-        if($ext == 'jpg'){
-            $request->file('file')->storeAs('public/uploads',$image);
-            $product->image = 'public/uploads/'.$image;
+        $product = Product::find($id);           
             $res = $product->save();
+            //add image in image table
+            foreach($data as $file){
+                $file = Image::create(
+                    [
+                        'prod'=>$id,
+                        'name'=>$file,
+                        'dir'=>'public/uploads/'.$file
+                    ]
+                    );
+            }
            //fetch old relations
             $prod_cat = ProdCat::where('prod','=',$id)->get(['cat']);
             foreach($prod_cat as $value){
@@ -228,11 +285,7 @@ class ProductController extends Controller
                 }
             }
             return  redirect('product/fetch');
-        }
-               
-        else{
-                return back()->with('message','jpg files only');
-            }           
+              
         
     
     }

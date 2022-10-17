@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('category', function (Blueprint $table) {
+        Schema::create('image', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('userid')
-            ->constrained('users') 
+            $table->foreignId('prod')
+            ->constrained('product') 
             ->onDelete('cascade');
             $table->string('name');
-            $table->string('description');
+            $table->string('dir');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category');
+        Schema::dropIfExists('image');
     }
 };
