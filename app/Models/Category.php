@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Category extends Model
-{
+{   
+    use SoftDeletes;
     use HasFactory;
     protected $table = 'category';
     protected $fillable = [
@@ -15,7 +16,6 @@ class Category extends Model
         'description',
         
     ];
-    // public function prod_cat(){
-    //     return $this->hasMany(ProdCat::class,'cat','id');
-    // }
+    protected $dates = [ 'deleted_at' ];
+    
 }

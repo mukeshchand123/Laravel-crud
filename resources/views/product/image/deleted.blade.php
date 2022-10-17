@@ -22,7 +22,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="../../fetch">Product</a>
+        <a class="nav-link" href="../fetch">Product</a>
       </li>
      
       <li class="nav-item">
@@ -31,7 +31,7 @@
       
       
       <li class="nav-item">
-        <a class="nav-link" href="../deleted">Deleted Image</a>
+        <a class="nav-link" href="/product/image/deleted">Deleted Image</a>
       </li>
 
       <li class="nav-item">
@@ -45,15 +45,7 @@
   </div>
 </nav>
 
-<!-- forms -->
-<div class="container">
-    <!-- product according to category -->   
-    
-    
-    <!-- search form -->
-   
-
-    <div class ="container" >
+<div class ="container" >
 
     <table align="center" border="1px" width="1000px" style="  text-align: center;">
 <tr>
@@ -81,7 +73,7 @@
          
           
             
-             <td><a href="../delete/{{$pro->id}}"  onclick=\"return confirm('Are you sure you want to delete?');\">Delete  </td> 
+             <td><a href="../image/restore/{{$pro->id}}"  onclick=\"return confirm('Are you sure you want to restore?');\">restore  </td> 
         </tr>     
 
 

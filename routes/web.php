@@ -51,12 +51,20 @@ Route::middleware(['isLoggedIn'])->group(function () {
     Route::post('/add-category',[CategoryController::class,'add']);
     Route::get('category/update/{id}',[CategoryController::class,'edit'])->where('id', '[0-9]+');
     Route::post('update/{id}',[CategoryController::class,'update'])->where('id', '[0-9]+');
+    Route::get('category/deleted',[CategoryController::class,'deleted'])->where('id', '[0-9]+');
+    Route::get('category/restore/{id}',[CategoryController::class,'restore'])->where('id', '[0-9]+');
     Route::get('category/delete/{id}',[CategoryController::class,'destroy'])->where('id', '[0-9]+');
     
+
     Route::get('product/fetch',[ProductController::class,'fetch']);
+    Route::get('product/deleted',[ProductController::class,'deleted']);
+    Route::get('product/restore/{id}',[ProductController::class,'restore']);
+  
   
     Route::get('product/image/fetch/{id}',[ImageController::class,'fetch']);
     Route::get('product/image/delete/{id}',[ImageController::class,'delete']);
+    Route::get('product/image/deleted',[ImageController::class,'deleted']);
+    Route::get('product/image/restore/{id}',[ImageController::class,'restore']);
   
     Route::get('product/add', [ProductController::class,'add']);
     Route::post('/add-product', [ProductController::class,'add_product']);

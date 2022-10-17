@@ -22,18 +22,22 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="../../fetch">Product</a>
+        <a class="nav-link" href="../product/fetch">Product</a>
       </li>
      
       <li class="nav-item">
-        <a class="nav-link" href="../../../category/fetch">Category</a>
-      </li>
-      
-      
-      <li class="nav-item">
-        <a class="nav-link" href="../deleted">Deleted Image</a>
+        <a class="nav-link" href="../category/fetch">Category</a>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link" href="../product/add">Add Product</a>
+      </li>
+
+      
+      <li class="nav-item">
+        <a class="nav-link" href="../product/deleted">Deleted Product</a>
+      </li>
+      
       <li class="nav-item">
         <a class="nav-link" href="/logout">Logout</a>
       </li>
@@ -46,12 +50,10 @@
 </nav>
 
 <!-- forms -->
-<div class="container">
+
     <!-- product according to category -->   
-    
-    
+  
     <!-- search form -->
-   
 
     <div class ="container" >
 
@@ -60,32 +62,33 @@
  
    <tr> <th colspan="8" ><h2>Product table</h2></th></tr>
     <th ><h2>S.n</h2></th>
-   
+    <th ><h2>userid</h2></th>
     <th><h2>Product-Name</h2></th>
+    <th><h2>Product-category</h2></th>
+    <th><h2>Product-price</h2></th>
     <th><h2>Image</h2></th>
-    <th><h2>Dir</h2></th>
-   
     <th><h2>Action</h2></th>
 
     
 </tr>
-@foreach($image as $pro )
-
-
+@foreach($product as $pro )
+@foreach($pro->category as $cat)
 
         <tr>
             <td> {{$pro->id}}</td>
-            <td>{{ $pro->product->name}}</td>
+            <td>{{$pro->userid}}</td>
             <td>{{$pro->name}}</td>
-            <td>{{$pro->dir}}</td>
-         
-          
-            
-             <td><a href="../delete/{{$pro->id}}"  onclick=\"return confirm('Are you sure you want to delete?');\">Delete  </td> 
+            <td>{{$cat->name}}</td>
+            <td>{{$pro->price}}</td>
+            <td><a href="product/image/fetch/{{$pro->id}}">Image</td>
+             <td><a href="restore/{{$pro->id}}"  onclick=\"return confirm('Are you sure you want to restore?');\">Restore </td> 
         </tr>     
 
 
+     
 @endforeach
+@endforeach
+
 </tablw>
 </div>
 

@@ -32,6 +32,11 @@
       <li class="nav-item">
         <a class="nav-link" href="../product/add">Add Product</a>
       </li>
+
+      
+      <li class="nav-item">
+        <a class="nav-link" href="../product/deleted">Deleted Product</a>
+      </li>
       
       <li class="nav-item">
         <a class="nav-link" href="/logout">Logout</a>

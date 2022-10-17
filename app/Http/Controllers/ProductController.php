@@ -153,19 +153,22 @@ class ProductController extends Controller
     {
         
         $image = new Image();
-        $image = Image::where('prod','=',$id)->get();
-        //delete image related to product
-        foreach($image as $value){
+        $image = Image::where('prod','=',$id);
+        $image->delete();
 
-            $dir=$value->dir;
+        //delete image related to product
+        //for hard delete
+        // foreach($image as $value){
+
+        //     $dir=$value->dir;
             
-        if(\File::exists(public_path($dir))){
-            \File::delete(public_path($dir));
-          }
+        // if(\File::exists(public_path($dir))){
+        //     \File::delete(public_path($dir));
+        //   }
 
         
            
-        }
+        // }
         $product=Product::where('id','=',$id);
        
       
@@ -288,5 +291,24 @@ class ProductController extends Controller
               
         
     
+    }
+
+    public function deleted(){
+
+        $search='';
+        $searchAll='';
+        $user  =Session::get('loginId');
+        $product = Product::onlyTrashed()->where('userid','=',$user)->get();
+        $category= Category::where('userid','=',$user)->get();
+        return view('product/deleted',['product'=>$product,'category'=>$category,'search'=>$search,'searchAll'=>$searchAll]);
+
+    }
+    public function restore($id){
+        echo'restore';
+        $user  =Session::get('loginId');
+        $product = Product::withTrashed()->where('id','=',$id)->restore();
+        $image = Image::withTrashed()->where('prod','=',$id)->restore();
+
+        return redirect('product/fetch');
     }
 }

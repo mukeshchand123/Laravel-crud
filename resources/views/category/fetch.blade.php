@@ -31,6 +31,10 @@
       <li class="nav-item">
         <a class="nav-link" href="/category/add">Add Category</a>
       </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="../category/deleted">Deleted Category</a>
+      </li>
       
       <li class="nav-item">
         <a class="nav-link" href="/logout">Logout</a>
