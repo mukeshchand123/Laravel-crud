@@ -50,7 +50,7 @@
 </nav>
 
 <!-- forms -->
-<div class="container">
+{{-- <div class="container">
     <!-- product according to category -->   
     <form action="/product/searchCategory" method="post" style=" float:left" >
     @csrf
@@ -75,82 +75,41 @@
           <input type="text" name="search" style="margin: 2px;position:relative;left:0%;" placeholder="Search" required>
           <input for="search" class=" btn-primary" type="submit" name="create" value="Search" style="margin:2px;position:relative;">
     </form> 
-</div><br><br><br><br><br>
+</div><br><br><br><br><br> --}}
+<div class="container">
+  <h1>Product List</h1>
+  @foreach ($product as $prod )
+  <hr>
+    Name:{{$prod->name}}<br>
+    Category:
+    @foreach ($prod->category as $cat )
+    {{"|"}}
+    {{ $cat->name }} 
+    {{"|"}}
+    @endforeach
+    <br>
+    Size:
+    @foreach ($prod->size as $size )
+    {{"|"}}
+    {{$size->productSize}}   
+    {{"|"}}
+    @endforeach
+    <br>
+    Price:{{$prod->price}} <br>
+    Image: 
+    @foreach ($prod->image->sortByDesc('primary') as $img )
+    @if ($img->primary == 1)
+    <img src="{{ URL($img->dir) }}" alt="Product Image" style = "height: 140px;width:140px;">
+    @else
+    <img src="{{ URL($img->dir) }}" alt="Product Image" style = "height: 120px;width:120px;">
+    @endif
+      
+    @endforeach 
+    <hr> 
+  @endforeach
 
-    <div class ="container" >
-
-    <table align="center" border="1px" width="1000px" style="  text-align: center;">
-<tr>
- 
-   <tr> <th colspan="8" ><h2>Product table</h2></th></tr>
-    <th ><h2>S.n</h2></th>
-    <th ><h2>userid</h2></th>
-    <th><h2>Product-Name</h2></th>
-    <th><h2>Product-Category</h2></th>
-    <th><h2>Product-Size</h2></th>
-    <th><h2>Product-Price</h2></th>
-    <th><h2>Product-Image</h2></th>
-    <th><h2>Image Manager</h2></th>
-    <th><h2>Action</h2></th>
-
-    
-</tr>
-@foreach($product as $pro )
-@foreach($pro->category as $cat)
-@foreach($pro->size as $value)
-@foreach($pro->image as $img)
-@if($search!='' && in_array($cat->id,$search) &&  $searchAll==''&& $img->primary==1 )
-        <tr>
-            <td> {{$pro->id}}</td>
-            <td>{{$pro->userid}}</td>
-            <td>{{$pro->name}}</td>
-            <td>{{$cat->name}}</td>
-            <td>{{$value->productSize}}</td>
-            <td>{{$pro->price}}</td>
-            {{-- <td><td>{{$img->dir}} </td> </td> --}}
-            <td><img src="{{ URL($img->dir) }}" alt="Product Image" style = "height: 80px;width:80px;"> </td>
-            <td><a href="product/image/fetch/{{$pro->id}}">AllImage</td>
-             <td><a href="delete/{{$pro->id}}"  onclick=\"return confirm('Are you sure you want to delete?');\">Delete <a href="update/{{$pro->id}}">Update </td> 
-        </tr>     
-@endif
-@if($search=='' && $searchAll!='' && $img->primary==1  )
-        <tr>
-            <td> {{$pro->id}}</td>
-            <td>{{$pro->userid}}</td>
-            <td>{{$pro->name}}</td>
-            <td>{{$cat->name}}</td>
-            <td>{{$value->productSize}}</td>
-            <td>{{$pro->price}}</td>
-            <td><img src="{{ URL($img->dir) }}" alt="Product Image" style = "height: 80px;width:80px;"> </td>
-            <td><a href="product/image/fetch/{{$pro->id}}">AllImage</td>
-            
-             <td><a href="delete/{{$pro->id}}"  onclick=\"return confirm('Are you sure you want to delete?');\">Delete <a href="update/{{$pro->id}}">Update </td> 
-        </tr>     
-@endif
-@if($search=='' && $searchAll=='' && $img->primary==1  )
-<tr>
-            <td> {{$pro->id}}</td>
-            <td>{{$pro->userid}}</td>
-            <td>{{$pro->name}}</td>
-            <td>{{$cat->name}}</td>
-            <td>{{$value->productSize}}</td>
-            <td>{{$pro->price}}</td>
-            <td><img src="{{ URL($img->dir) }}" alt="Product Image" style = "height: 80px;width:80px;"> </td>
-            <td><a href="/product/image/fetch/{{$pro->id}}">AllImage</td>
-            
-             <td><a href="delete/{{$pro->id}}"  onclick=\"return confirm('Are you sure you want to delete?');\">Delete <a href="update/{{$pro->id}}">Update </td> 
-        </tr>
-@endif      
-@endforeach
-@endforeach
-@endforeach
-@endforeach
-
-</tablw>
 
 </div>
-<h1><a href="/product/productlist">Product list</a></h1>
-
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

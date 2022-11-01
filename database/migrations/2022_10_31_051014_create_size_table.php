@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('image', function (Blueprint $table) {
+        Schema::create('size', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('prod')
-            ->constrained('product') 
+            $table->foreignId('userid')
+            ->constrained('users')
             ->onDelete('cascade');
-            $table->string('name');
-            $table->string('dir');
-            $table->boolean('primary')->default(0);
+            $table->string('productSize');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('image');
+        Schema::dropIfExists('size');
     }
 };

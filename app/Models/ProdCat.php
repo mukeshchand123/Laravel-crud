@@ -15,6 +15,7 @@ class ProdCat extends Model
         'cat',
         
     ];
+   // protected $dates = [ 'deleted_at' ];
     // public function product(){
     //     $this->belongsTo(Product::class,'prod','id');
     // }

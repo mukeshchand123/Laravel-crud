@@ -98,9 +98,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category,$id,)
     {
-        //
-        echo'category delete';
-        $exist = array();
+        
+       
+        // $exist = array();
         // $pc = new ProdCat();
         // $pc = ProdCat::where('cat','=',$id)->get();
         // foreach($pc as $value ){
@@ -110,6 +110,7 @@ class CategoryController extends Controller
         //     return back()->with('message','cannot delete category associated with a product.');
           
         // }else{
+           
             $category=Category::find($id);
             $category->delete();
             return redirect('category/fetch');
@@ -119,6 +120,7 @@ class CategoryController extends Controller
       
     }
 
+    // fetch all deleted category
     public function deleted(){
 
         $user  =Session::get('loginId');

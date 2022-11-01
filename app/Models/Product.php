@@ -17,7 +17,13 @@ class Product extends Model
         'image',
     ];
     protected $dates = [ 'deleted_at' ];
-public function category(){
-  return $this->belongsToMany(Category::class,'prod-cat','prod','cat');
-}
+  public function category(){
+    return $this->belongsToMany(Category::class,'prod-cat','prod','cat');
+  }
+  public function size(){
+    return $this->belongsToMany(Size::class,'productsize','prod_id','size_id');
+  }
+  public function image(){
+    return $this->hasMany(Image::class,'prod');
+  }
 }

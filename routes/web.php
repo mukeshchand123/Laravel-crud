@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ProductSizeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,6 +37,8 @@ Route::middleware(['LoggedIn'])->group(function () {
     
    
 });
+
+
 Route::middleware(['isLoggedIn'])->group(function () {
     
   
@@ -65,6 +68,7 @@ Route::middleware(['isLoggedIn'])->group(function () {
     Route::get('product/image/delete/{id}',[ImageController::class,'delete']);
     Route::get('product/image/deleted',[ImageController::class,'deleted']);
     Route::get('product/image/restore/{id}',[ImageController::class,'restore']);
+    Route::get('product/image/primary/{id}',[ImageController::class,'update']);
   
     Route::get('product/add', [ProductController::class,'add']);
     Route::post('/add-product', [ProductController::class,'add_product']);
@@ -73,6 +77,7 @@ Route::middleware(['isLoggedIn'])->group(function () {
     Route::get('product/delete/{id}',[ProductController::class,'destroy'])->where('id', '[0-9]+');
     Route::get('product/update/{id}',[ProductController::class,'edit'])->where('id', '[0-9]+');
     Route::post('update/{id}',[ProductController::class,'update']);
+    Route::get('product/productlist',[ProductController::class,'productList']);
 
     Route::get('/settings', function () {
         return view('settigs');
@@ -84,6 +89,18 @@ Route::middleware(['isLoggedIn'])->group(function () {
     Route::get('/user/user_update/{data}',[UserController::class,'userEdit']);
     Route::post('user/update',[UserController::class,'userUpdate']);
     Route::get('user/delete',[UserController::class,'destroy']);
+
+
+    Route::get('size/fetch',[ProductSizeController::class,'fetch']);
+    Route::get('size/add',[ProductSizeController::class,'add']);
+    Route::post('size/add',[ProductSizeController::class,'store']);
+    Route::get('size/delete/{id}',[ProductSizeController::class,'destroy']);
+    Route::get('size/deleted',[ProductSizeController::class,'deleted']);
+    Route::get('size/restore/{id}',[ProductSizeController::class,'restore']);
+    Route::get('size/edit/{id}',[ProductSizeController::class,'edit']);
+    Route::post('size/update/{id}',[ProductSizeController::class,'update']);
+
+   
     
     
 });

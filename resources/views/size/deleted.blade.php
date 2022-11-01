@@ -8,7 +8,6 @@
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-
 <title>PHP|CRUD</title>
 </head>
 <body>
@@ -22,18 +21,24 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="../../fetch">Product</a>
+        <a class="nav-link" href="../product/fetch">Product</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../category/fetch">Category</a>
       </li>
      
       <li class="nav-item">
-        <a class="nav-link" href="../../../category/fetch">Category</a>
-      </li>
-      
-      
-      <li class="nav-item">
-        <a class="nav-link" href="../deleted">Deleted Image</a>
+        <a class="nav-link" href="../size/fetch">Product Size</a>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link" href="/size/add">Add size</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="../size/deleted">Deleted Category</a>
+      </li>
+      
       <li class="nav-item">
         <a class="nav-link" href="/logout">Logout</a>
       </li>
@@ -45,47 +50,30 @@
   </div>
 </nav>
 
-
-<div class="container">
-  @if(Session::has('msg'))
-                    <div class="alert alert-success">{{Session::get('msg')}}</div>
+<div class = "container">
+@if(Session::has('message'))
+                    <div class="alert alert-success">{{Session::get('message')}}</div>
                     @endif
-
-    <div class ="container" >
-
-    <table align="center" border="1px" width="1000px" style="  text-align: center;">
-<tr>
- 
-   <tr> <th colspan="8" ><h2>Product table</h2></th></tr>
-    <th ><h2>S.n</h2></th>
-   
-    <th><h2>Product-Name</h2></th>
-    <th><h2>Image</h2></th>
-    <th><h2>Dir</h2></th>
-    <th><h2>primary</h2></th>
-   
-    <th><h2>Action</h2></th>
-
-    
-</tr>
-@foreach($image as $pro )
-
-
-
-        <tr>
-            <td> {{$pro->id}}</td>
-            <td>{{ $pro->product->name}}</td>
-            <td>{{$pro->name}}</td>
-            <td><img src="{{ URL($pro->dir) }}" alt="Product Image" style = "height: 80px;width:80px;"> </td>
-            <td>{{$pro->primary}}</td>
-         
-          
+    <table  border="1px" align="center" width="800px" style="text-align: center;">
+      <tr>
+          <tr> <th colspan="8" ><h2>Category table</h2></th></tr>
+             <th ><h2>S.n</h2></th>
+             <th ><h2>userid</h2></th>
+             <th><h2>Product size</h2></th>
             
-             <td><a href="../delete/{{$pro->id}}"  onclick=\"return confirm('Are you sure you want to delete?');\">Delete  <a href="../primary/{{$pro->id}}"  onclick=\"return confirm('Are you sure you want to Make this image primary?');\">Make Primary</td> 
+             <th><h2>Action</h2></th>
+      </tr>
+  @foreach($data as $size )
+        <tr>
+            <td> {{$size->id}}</td>
+            <td>{{$size->userid}}</td>
+            <td>{{$size->productSize}}</td>
+           
+             <td><a href="restore/{{$size->id}}"  onclick=\"return confirm('Are you sure you want to restore?');\">Restore </td> 
         </tr>     
+     
+   @endforeach
 
-
-@endforeach
 </tablw>
 </div>
 

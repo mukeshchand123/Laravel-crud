@@ -22,7 +22,7 @@ return new class extends Migration
           //  $table->foreign('userid')->refrences('id')->on('users') ->onUpdate('No Action')->onDelete('cascade');
             $table->string('name');
             $table->string('price');
-            $table->softDeletes();
+            $table->softDeletes(); // deleted_at
             $table->timestamps();
         });
     }

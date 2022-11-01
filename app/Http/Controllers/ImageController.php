@@ -20,11 +20,14 @@ class ImageController extends Controller
        $image= new Image();
         $image = Image::where('id','=',$id)->get();
         foreach($image as $value){
-            $dir = $value->dir;
+            if($value->primary == 1){
+                return back()->with('msg','Cannot delete primary Image.');
+            }
+          
         }
+      
         
-        
-
+        //delete image from directory 
         // if(\File::exists(public_path($dir))){
         //     \File::delete(public_path($dir));
         //   }
@@ -36,10 +39,11 @@ class ImageController extends Controller
 
     public function deleted(){
 
+        //display all deleted image data
        
         $user  =Session::get('loginId');
         $prod = Session::get('prod');
-       // $product = Product::onlyTrashed()->where('userid','=',$user)->get();
+      
         $image= Image::onlyTrashed()->where('prod','=',$prod)->get();
         return view('product/image/deleted',['image'=>$image]);
 
@@ -50,5 +54,17 @@ class ImageController extends Controller
         echo $id;
         $image = Image::withTrashed()->where('id','=',$id)->restore();
         return redirect('product/fetch');
+    }
+
+    public function update($id){
+        $image = new Image();
+        $prod = Session::get('prod');
+        $image =  Image::where('primary','=',1)->where('prod','=',$prod)->first();
+        $image->primary = 0; 
+        $image->save();
+        $image = Image::find($id);
+        $image->primary = 1;
+        $image->save();
+        return back();
     }
 }

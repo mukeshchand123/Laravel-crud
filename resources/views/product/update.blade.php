@@ -63,7 +63,18 @@
                         @endif
                     @endforeach    
                   </select><br><br>
+                  <label for="size">Product size</label>
+                  <select name = "size[]"  multiple required>
+                    @foreach($size as $value)
+                        @if(in_array($value->id,$productSize))
+                        <option value = "{{$value->id}}" selected>{{$value->productSize}}</option>
+                        @else
+                        <option value = "{{$value->id}}">{{$value->productSize}}</option>
+                        @endelse
+                        @endif
+                    @endforeach    
                   </select><br><br>
+                  
                   
              
                <label for="productPrice">Product Price</label>

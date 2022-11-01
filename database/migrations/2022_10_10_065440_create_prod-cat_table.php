@@ -23,6 +23,7 @@ return new class extends Migration
             ->constrained('category') 
             ->onUpdate('No Action')
             ->onDelete('restrict');
+        //    $table->softDeletes();
             $table->timestamps();
         });
     }

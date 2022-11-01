@@ -69,7 +69,8 @@
             <td> {{$pro->id}}</td>
             <td>{{ $pro->product->name}}</td>
             <td>{{$pro->name}}</td>
-            <td>{{$pro->dir}}</td>
+            <td><img src="{{ URL($pro->dir) }}" alt="Product Image" style = "height: 80px;width:80px;"> </td>
+            {{-- <td>{{$pro->dir}}</td> --}}
          
           
             

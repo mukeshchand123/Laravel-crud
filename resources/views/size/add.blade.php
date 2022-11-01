@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Document</title>
+
+    <title>Add Product Size</title>
 </head>
 <body>
 
@@ -26,6 +26,9 @@
         <a class="nav-link" href="../category/fetch">Category</a>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link" href="../size/fetch">Size</a>
+      </li>
       
       <li class="nav-item">
         <a class="nav-link" href="../logout">Logout</a>
@@ -38,13 +41,12 @@
   </div>
 </nav>
 
-<form action="/add-product" method="post" enctype="multipart/form-data" >
-   @csrf
-   @if (count($errors) > 0)
-   <div class="alert alert-danger">
-        <strong>Whoops!</strong> There were some problems with your input.<br><br>       
-      </div>
-      @endif
+<form action='/size/add' method="post" enctype="multipart/form-data" >
+@if(Session::has('fail'))
+<div class="alert alert-success">{{Session::get('fail')}}</div>
+@endif    
+@csrf
+   
    <div class="container">
        <div class="row">
            <div class="col-sm-3">
@@ -52,38 +54,14 @@
                
                <hr class="mb-3">
               
-               <label for="productName">Product Name</label>
-               <input class="form-control" type="productName" name="productName" placeholder="Product Name" required><br><br>
+               <label for="size">Product Size</label>
+               <input class="form-control" type="text" name="size" placeholder="Product size" required><br>
               
-               <label for="productCategory">Product Category</label>
-                  <select name = "dropdown[]"  multiple required>
-                    @foreach($category as $cat)
-                        <option value = "{{$cat->id}}" >{{$cat->name}}</option>
-                    @endforeach    
-                  </select><br><br>
-                
-                <label for="size">Product Size</label>
-                  <select name = "size[]"  multiple required>
-                    @foreach($size as $value)
-                        <option value = "{{$value->id}}" >{{$value->productSize}}</option>
-                    @endforeach    
-                  </select><br><br>  
-
-               <label for="productPrice">Product Price</label>
-               <input class="form-control" type="productPrice" name="productPrice"  placeholder="Product Price"  required><br><br>
-
-               <label for="file">Product Image</label>
-               <input type="file" name="file[]" id="file" accept="image/jpeg" multiple required><br><br>
-               <ul>
-          @foreach ($errors->all() as $error)
-          <div class="alert alert-danger">
-              <li>{{ $error }}</li>
-          </div>
-          @endforeach
-          </ul>
+              
+                        
                <hr class="mb-3">
                
-               <input class="btn btn-primary"  onclick="return confirm('Are you sure you want to continue?');" type="submit" name="create" value="ADD-Product">
+               <input class="btn btn-primary"  onclick="return confirm('Are you sure you want to continue?');" type="submit" name="create" value="Add-Size">
            </div>
        </div>
    </div>
