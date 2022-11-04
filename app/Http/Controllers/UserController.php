@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 use Hash;
 use Session;
 //use Illuminate\Support\Facade\DB;
@@ -51,7 +52,7 @@ class UserController extends Controller
         
         $user->email = $email;
         //check if email already exists.
-      //  $users = \DB::select('select * from users where email = :email', [':email'=>$email]);
+        //$users = \DB::select('select * from users where email = :email', [':email'=>$email]);
       
       
         $password = $request->get('password');
@@ -59,6 +60,8 @@ class UserController extends Controller
         if( $password ==  $confirm_password){
             $user->password = Hash::make($password);
            $res = $user->save();
+        //    event(new Registered($user)); //to send verification mail.
+
             return back()->with('success','User registered ssuccesfully.');
         }else{
             return back()->with('fail','User registration failed.');
@@ -67,6 +70,7 @@ class UserController extends Controller
 
     public function login(Request $request){
         //validate input
+        
         $request->validate([
             'email'=>'required|email', 
             'password'=>'required|min:4|max:12'
@@ -76,8 +80,7 @@ class UserController extends Controller
         $email = $request->get('email');
         $password = $request->get('password');
         $users = \DB::select('select * from users where email = :email', [':email'=>$email]);
-        //echo "<pre>";
-       // print_r($users);
+       
       
         if(($users)){
             foreach($users as $user){

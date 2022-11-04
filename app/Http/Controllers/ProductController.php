@@ -10,6 +10,7 @@ use App\Models\Size;
 use App\Models\ProductSize;
 use Illuminate\Http\Request;
 use Session;
+use ImageNew;
 
 class ProductController extends Controller
 { 
@@ -17,7 +18,7 @@ class ProductController extends Controller
     public function fetch(Product $product,Category $category)
     {
       
-      //for searching via category
+      //for searching 
         if( Session::get('redirectToUsersPage')) {
             $search_id = Session::get('redirectToUsersPage');
             Session::forget('redirectToUsersPage');
@@ -83,12 +84,42 @@ class ProductController extends Controller
 
            foreach($request->file('file') as $file)
            {    
-               $image =time().'_'.$name.'.'.$file->getClientOriginalName();
+            $image = ImageNew::make($file);
+             /**
+             * Main Image Upload on Folder Code
+             */
+               $imageName =time().'_'.$name.'.'.$file->getClientOriginalName();
              //  $image=$file->getClientOriginalName();
               // $request->file('file')->storeAs('public/uploads',$image);
-               $file->move('public/uploads', $image); 
-               //$file->move(public_path().'/files/', $name);  
-               $data[] = $image; 
+               $destinationPath = public_path('public/uploads/');
+               $image->save($destinationPath.$imageName);
+            //   $file->move('public/uploads', $image); 
+               //$file->move(public_path().'/files/', $name); 
+    
+          /**
+          * Generate Thumbnail-1 Image Upload on Folder Code
+          */
+            $destinationPathThumbnail = public_path('public/uploads/thumbnail_1/');
+            $image->resize(400,400);
+            $image->save($destinationPathThumbnail.$imageName);
+           
+           /**
+          * Generate Thumbnail-2 Image Upload on Folder Code
+          */
+            $destinationPathThumbnail = public_path('public/uploads/thumbnail_2/');
+            $image->resize(800,800);
+            $image->save($destinationPathThumbnail.$imageName);  
+           
+            
+           /**
+          * Generate Thumbnail-3 Image Upload on Folder Code
+          */
+          $destinationPathThumbnail = public_path('public/uploads/thumbnail_3/');
+          $image->resize(300,300);
+          $image->save($destinationPathThumbnail.$imageName);    
+   
+               
+               $data[] = $imageName; 
                
            }
         }
@@ -227,7 +258,7 @@ class ProductController extends Controller
            }
            foreach($value->size as $size){
             $prod_size[] = $size->id;
-            echo $size->id;
+            
            }
           }
       

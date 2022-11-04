@@ -55,7 +55,7 @@ class ImageController extends Controller
         $image = Image::withTrashed()->where('id','=',$id)->restore();
         return redirect('product/fetch');
     }
-
+    //changing primary image
     public function update($id){
         $image = new Image();
         $prod = Session::get('prod');
